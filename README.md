@@ -7,4 +7,4 @@ Portal gerbang utama ekosistem resmi **TW-Enterprise**:
 
 ---
 
-Hak Cipta © 2026 TW-Enterprise (WanDrone Palembang & Throttle Warrior).
+Hak Cipta © 2026 TW-Enterprise • Made with ❤️ by Throttle Warriors.
