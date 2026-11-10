@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TW-Enterprise — Geospatial Engineering & Aerial Drone Photogrammetry Systems</title>
+  <meta name="description" content="Portal Resmi TW-Enterprise: Ekosistem terpadu perencanaan misi drone DJI (TW Mapper Mobile) dan pengolahan fotogrametri desktop native (TW Photogram).">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  
+  <style>
+    :root {
+      --bg-space: #070b14;
+      --bg-surface: #0c1322;
+      --bg-card: #111a2e;
+      --bg-card-hover: #16223b;
+      --border: #1e2c47;
+      --border-accent: #00d2ff;
+      --accent-cyan: #00d2ff;
+      --accent-sky: #38bdf8;
+      --accent-blue: #0284c7;
+      --accent-green: #10b981;
+      --accent-amber: #f59e0b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --shadow-glow: 0 0 35px rgba(0, 210, 255, 0.15);
+      --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-space);
+      color: var(--text-main);
+      font-family: var(--font);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(0, 210, 255, 0.08) 0%, transparent 60%),
+        radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.05) 0%, transparent 40%),
+        linear-gradient(to bottom, #070b14, #0a101d);
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Header Nav */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(7, 11, 20, 0.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.85rem 0;
+    }
+
+    .nav-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 800;
+      font-size: 1.15rem;
+      letter-spacing: -0.01em;
+      color: var(--text-main);
+    }
+
+    .brand-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #00d2ff, #0284c7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 15px rgba(0, 210, 255, 0.4);
+    }
+
+    .brand-icon svg {
+      width: 20px;
+      height: 20px;
+      fill: #070b14;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.75rem;
+      font-size: 0.92rem;
+      font-weight: 550;
+      color: var(--text-muted);
+    }
+
+    .nav-links a:hover {
+      color: var(--accent-cyan);
+    }
+
+    .btn-github {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.45rem 0.95rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-main);
+      transition: all 0.2s ease;
+    }
+
+    .btn-github:hover {
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 12px rgba(0, 210, 255, 0.2);
+      transform: translateY(-1px);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 5.5rem 0 4rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .pill-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.9rem;
+      background: rgba(0, 210, 255, 0.1);
+      border: 1px solid rgba(0, 210, 255, 0.35);
+      border-radius: 9999px;
+      font-size: 0.825rem;
+      font-weight: 650;
+      color: var(--accent-cyan);
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .hero-title {
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 850;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+      max-width: 950px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #f8fafc 30%, #00d2ff 80%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-desc {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: var(--text-muted);
+      max-width: 800px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.65;
+    }
+
+    .hero-ctas {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 4rem;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.85rem 1.75rem;
+      background: linear-gradient(135deg, #00d2ff, #0284c7);
+      color: #070b14;
+      font-weight: 750;
+      font-size: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0, 210, 255, 0.3);
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 6px 28px rgba(0, 210, 255, 0.45);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.85rem 1.75rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      font-weight: 650;
+      font-size: 1rem;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--text-muted);
+      background: var(--bg-card-hover);
+      transform: translateY(-2px);
+    }
+
+    /* Highlight Banner Stats */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+      background: rgba(12, 19, 34, 0.65);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow-card);
+      margin-bottom: 5rem;
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .stat-val {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--accent-cyan);
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-lbl {
+      font-size: 0.825rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    /* Section Titles */
+    .section-head {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+
+    .section-badge {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .section-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-desc {
+      color: var(--text-muted);
+      max-width: 650px;
+      margin: 0 auto;
+      font-size: 1.05rem;
+    }
+
+    /* Flagship Products Grid */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+      gap: 2.5rem;
+      margin-bottom: 6rem;
+    }
+
+    @media (max-width: 768px) {
+      .products-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .product-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow-card);
+      position: relative;
+    }
+
+    .product-card:hover {
+      border-color: rgba(0, 210, 255, 0.45);
+      box-shadow: var(--shadow-glow);
+      transform: translateY(-4px);
+    }
+
+    .product-header {
+      padding: 2.25rem 2.25rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+
+    .product-badge {
+      display: inline-block;
+      padding: 0.25rem 0.65rem;
+      background: rgba(0, 210, 255, 0.12);
+      border: 1px solid rgba(0, 210, 255, 0.3);
+      color: var(--accent-cyan);
+      font-size: 0.75rem;
+      font-weight: 700;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .product-title-row {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .product-logo {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      object-fit: cover;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      border: 1.5px solid var(--border);
+      background: #000;
+    }
+
+    .product-name {
+      font-size: 1.85rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .product-subtitle {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent-sky);
+    }
+
+    .product-body {
+      padding: 2rem 2.25rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-desc {
+      color: var(--text-muted);
+      font-size: 0.975rem;
+      line-height: 1.65;
+      margin-bottom: 1.75rem;
+    }
+
+    .feature-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .feature-tag {
+      padding: 0.3rem 0.65rem;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.8rem;
+      color: var(--text-main);
+      font-family: var(--font-mono);
+    }
+
+    .product-preview {
+      margin-bottom: 2rem;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #000;
+    }
+
+    .product-preview img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .product-preview:hover img {
+      transform: scale(1.02);
+    }
+
+    .product-actions {
+      margin-top: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .action-link-main {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.85rem 1.25rem;
+      background: linear-gradient(135deg, rgba(0, 210, 255, 0.15), rgba(2, 132, 199, 0.15));
+      border: 1px solid rgba(0, 210, 255, 0.4);
+      border-radius: 8px;
+      color: var(--text-main);
+      font-weight: 700;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+    }
+
+    .action-link-main:hover {
+      background: linear-gradient(135deg, rgba(0, 210, 255, 0.25), rgba(2, 132, 199, 0.25));
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 16px rgba(0, 210, 255, 0.2);
+    }
+
+    .action-links-sub {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    .action-link-sub {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      padding: 0.65rem 0.9rem;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      transition: all 0.2s ease;
+    }
+
+    .action-link-sub:hover {
+      color: var(--text-main);
+      border-color: var(--text-dim);
+      background: var(--bg-card-hover);
+    }
+
+    /* Workflow Pipeline Section */
+    .workflow-section {
+      margin-bottom: 6rem;
+    }
+
+    .workflow-timeline {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .workflow-step {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.75rem;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .step-number {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: rgba(0, 210, 255, 0.12);
+      border: 1px solid var(--accent-cyan);
+      color: var(--accent-cyan);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.9rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .step-title {
+      font-size: 1.15rem;
+      font-weight: 750;
+      margin-bottom: 0.5rem;
+    }
+
+    .step-desc {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* Core Pillars */
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 6rem;
+    }
+
+    .pillar-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.75rem;
+    }
+
+    .pillar-icon {
+      font-size: 1.75rem;
+      margin-bottom: 1rem;
+      display: inline-block;
+    }
+
+    .pillar-title {
+      font-size: 1.2rem;
+      font-weight: 750;
+      margin-bottom: 0.6rem;
+    }
+
+    .pillar-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* Team & Collaboration */
+    .team-card {
+      background: linear-gradient(135deg, rgba(12, 19, 34, 0.9), rgba(17, 26, 46, 0.9));
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2.5rem;
+      margin-bottom: 6rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      box-shadow: var(--shadow-card);
+    }
+
+    .team-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .member-box {
+      padding: 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--bg-surface);
+    }
+
+    .member-name {
+      font-size: 1.15rem;
+      font-weight: 750;
+      color: var(--accent-cyan);
+      margin-bottom: 0.25rem;
+    }
+
+    .member-org {
+      font-size: 0.85rem;
+      font-weight: 650;
+      color: var(--accent-sky);
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .member-role {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 4rem 0 3rem;
+      background: #050810;
+      font-size: 0.875rem;
+      color: var(--text-dim);
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 2.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .footer-brand {
+      max-width: 380px;
+    }
+
+    .footer-brand .brand {
+      margin-bottom: 0.85rem;
+    }
+
+    .footer-links-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .footer-group-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-main);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.4rem;
+    }
+
+    .footer-links-group a {
+      color: var(--text-muted);
+      transition: color 0.2s ease;
+    }
+
+    .footer-links-group a:hover {
+      color: var(--accent-cyan);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header>
+    <div class="container nav-wrapper">
+      <a href="#" class="brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span>TW-ENTERPRISE</span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#produk">Produk</a>
+        <a href="#alur-kerja">Alur Kerja</a>
+        <a href="#keunggulan">Standar Rekayasa</a>
+        <a href="#tim">Tim & Kolaborasi</a>
+        <a href="https://github.com/TW-Enterprise" target="_blank" class="btn-github">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          <span>TW-Enterprise</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="pill-badge">
+        <span>🛰️ Ekosistem Pemetaan Drone & Fotogrametri Presisi Tinggi</span>
+      </div>
+
+      <h1 class="hero-title">
+        Satu Ekosistem Lengkap:<br>
+        <span class="gradient-text">Dari Remote Kontrol di Lapangan Hingga Studio Geospasial Desktop</span>
+      </h1>
+
+      <p class="hero-desc">
+        TW-Enterprise menghadirkan teknologi fotogrametri digital generasi baru: integrasi tanpa celah antara perencanaan jalur terbang otonom drone DJI di remote kontrol tanpa laptop, dan platform pengolahan fotogrametri desktop native dengan akurasi terkalibrasi ASPRS 2014 & SNI 8202:2015.
+      </p>
+
+      <div class="hero-ctas">
+        <a href="#tw-photogram" class="btn-primary">
+          <span>Jelajahi TW Photogram</span>
+          <span>→</span>
+        </a>
+        <a href="#tw-mapper" class="btn-secondary">
+          <span>Jelajahi TW Mapper Mobile</span>
+        </a>
+      </div>
+
+      <!-- Live Highlights / Stats -->
+      <div class="stats-bar">
+        <div class="stat-item">
+          <span class="stat-val">1:1 Parity</span>
+          <span class="stat-lbl">Agisoft Metashape Professional</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-val">Tanpa Laptop</span>
+          <span class="stat-lbl">Injeksi Misi di DJI RC 2 / Phone</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-val">Zero-Dummy</span>
+          <span class="stat-lbl">Algoritme Numerik & CV Murni</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-val">Standar Nasional</span>
+          <span class="stat-lbl">Peta BIG, SNI 8202 & ASPRS 2014</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Products Section -->
+  <section id="produk" class="container">
+    <div class="section-head">
+      <span class="section-badge">Solusi Terpadu</span>
+      <h2 class="section-title">Produk Unggulan TW-Enterprise</h2>
+      <p class="section-desc">
+        Dua instrumen utama yang mentransformasi seluruh siklus fotogrametri udara dari akuisisi lapangan hingga analisis geospasial akhir.
+      </p>
+    </div>
+
+    <div class="products-grid">
+      <!-- Product 1: TW Photogram -->
+      <article id="tw-photogram" class="product-card">
+        <div class="product-header">
+          <span class="product-badge">Desktop Native • macOS • Windows • Linux</span>
+          <div class="product-title-row">
+            <img src="assets/tw-photogram-logo.png" alt="TW Photogram Logo" class="product-logo">
+            <div>
+              <h3 class="product-name">TW Photogram</h3>
+              <div class="product-subtitle">Fotogrametri UAV, GIS & Analisis Bahaya</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-body">
+          <p class="product-desc">
+            Aplikasi desktop native berkecepatan tinggi yang ditulis dalam Rust 2024. Menghasilkan awan titik rapat (dense cloud), mesh 3D bertekstur, DEM/DTM, ortomosaik seamless dengan nadir feathering, kontur marching-squares, lembar peta standar BIG, simulasi genangan air (Bates Solver), dan 3D Gaussian Splatting dengan paritas setara Agisoft Metashape Professional.
+          </p>
+
+          <div class="feature-tags">
+            <span class="feature-tag">SfM & SBA (Levenberg-Marquardt)</span>
+            <span class="feature-tag">Multi-View Stereo (SGM)</span>
+            <span class="feature-tag">SMRF / CSF Ground Filter</span>
+            <span class="feature-tag">Kalibrasi DEMNAS & EGM2008</span>
+            <span class="feature-tag">Simulasi Genangan Inersial (Bates 2010)</span>
+            <span class="feature-tag">Lembar Peta Standar BIG/RBI</span>
+            <span class="feature-tag">3D Gaussian Splatting (Brush)</span>
+          </div>
+
+          <div class="product-actions">
+            <a href="https://tw-enterprise.github.io/TW-Photogram-Docs/" class="action-link-main">
+              <span>🌐 Buka Situs Dokumentasi Resmi</span>
+              <span>→</span>
+            </a>
+            <div class="action-links-sub">
+              <a href="https://tw-enterprise.github.io/TW-Photogram-Docs/TW-Photogram-Manual-Book.pdf" class="action-link-sub" download>
+                <span>📖 Manual Book PDF</span>
+              </a>
+              <a href="https://github.com/TW-Enterprise/TW-Photogram" target="_blank" class="action-link-sub">
+                <span>📦 Repositori GitHub</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Product 2: TW Mapper Mobile -->
+      <article id="tw-mapper" class="product-card">
+        <div class="product-header">
+          <span class="product-badge">Mobile & Smart Controller • DJI RC 2 • Android</span>
+          <div class="product-title-row">
+            <img src="assets/tw-mapper-logo.png" alt="TW Mapper Mobile Logo" class="product-logo">
+            <div>
+              <h3 class="product-name">TW Mapper Mobile</h3>
+              <div class="product-subtitle">Perencanaan Misi & Injeksi Waypoint DJI</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-body">
+          <p class="product-desc">
+            Sistem perencanaan misi fotogrametri otonom tanpa perlu membawa laptop ke kebun atau proyek. Dijalankan langsung di remote kontrol berlayar DJI (RC 2, RC Pro, RC Plus) atau HP Android. Mendukung pola grid poligon, koridor jalan/sungai, fasad 3D double grid, serta protokol DUML untuk FCC signal boost dan unlock batas terbang 500m.
+          </p>
+
+          <div class="feature-tags">
+            <span class="feature-tag">Boustrophedon Grid Otomatis</span>
+            <span class="feature-tag">Mode Koridor (Jalan, Pipa, Sungai)</span>
+            <span class="feature-tag">Double Grid (Fasad 3D)</span>
+            <span class="feature-tag">Orbit Helix Inspeksi Menara</span>
+            <span class="feature-tag">Injeksi 1-Detik ke DJI Fly</span>
+            <span class="feature-tag">Penguat Sinyal Radio (Mode FCC)</span>
+            <span class="feature-tag">Buka Batas Tinggi 500m (Altitude)</span>
+          </div>
+
+          <div class="product-preview">
+            <img src="assets/tw-mapper-preview.png" alt="Antarmuka Layar TW Mapper Mobile">
+          </div>
+
+          <div class="product-actions">
+            <a href="https://tw-enterprise.github.io/TW-Mapper-Mobile-Docs/" class="action-link-main">
+              <span>🌐 Buka Situs Dokumentasi Resmi</span>
+              <span>→</span>
+            </a>
+            <div class="action-links-sub">
+              <a href="https://tw-enterprise.github.io/TW-Mapper-Mobile-Docs/TW-Mapper-Mobile-Manual-Book.pdf" class="action-link-sub" download>
+                <span>📖 Manual Book PDF</span>
+              </a>
+              <a href="https://github.com/TW-Enterprise/TW-Mapper-Mobile" target="_blank" class="action-link-sub">
+                <span>📦 Repositori GitHub</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Workflow Pipeline -->
+  <section id="alur-kerja" class="container workflow-section">
+    <div class="section-head">
+      <span class="section-badge">Alur Operasi Lapangan</span>
+      <h2 class="section-title">Alur Kerja Terpadu TW-Enterprise</h2>
+      <p class="section-desc">
+        Sinergi menyeluruh dari perencanaan jalur terbang di lapangan hingga produk geospasial siap serah-terima.
+      </p>
+    </div>
+
+    <div class="workflow-timeline">
+      <div class="workflow-step">
+        <div class="step-number">1</div>
+        <h4 class="step-title">Perencanaan Mandiri</h4>
+        <p class="step-desc">
+          Gambar poligon lahan atau koridor di <strong>TW Mapper Mobile</strong> pada remote DJI. Hitung GSD, overlap, dan waktu terbang tanpa perlu membuka laptop.
+        </p>
+      </div>
+
+      <div class="workflow-step">
+        <div class="step-number">2</div>
+        <h4 class="step-title">Injeksi & Terbang</h4>
+        <p class="step-desc">
+          Suntikkan jalur terbang ke DJI Fly dalam 1 detik. Drone mengeksekusi misi waypoint otonom dengan interval jepretan kamera terkalibrasi anti-bolong.
+        </p>
+      </div>
+
+      <div class="workflow-step">
+        <div class="step-number">3</div>
+        <h4 class="step-title">Pengolahan SfM & DEM</h4>
+        <p class="step-desc">
+          Buka foto di <strong>TW Photogram</strong> desktop. Eksekusi alur kerja 12 tahap (FAST/BRIEF, SBA, MVS, CSF) secara lokal pada GPU Metal/Vulkan/OpenGL.
+        </p>
+      </div>
+
+      <div class="workflow-step">
+        <div class="step-number">4</div>
+        <h4 class="step-title">Analisis & Serah Terima</h4>
+        <p class="step-desc">
+          Hasilkan ortomosaik tajam, model elevasi DEM, simulasi banjir hidrologi (Bates), lembar peta standar BIG, dan laporan akurasi ASPRS 2014.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Core Pillars -->
+  <section id="keunggulan" class="container">
+    <div class="section-head">
+      <span class="section-badge">Fondasi Teknik</span>
+      <h2 class="section-title">Standar Rekayasa Tanpa Kompromi</h2>
+      <p class="section-desc">
+        Mengapa profesional fotogrametri, BUMN, perkebunan, dan instansi pemerintah memilih arsitektur TW-Enterprise.
+      </p>
+    </div>
+
+    <div class="pillars-grid">
+      <div class="pillar-card">
+        <div class="pillar-icon">⚡</div>
+        <h4 class="pillar-title">Kebijakan Zero-Dummy</h4>
+        <p class="pillar-desc">
+          Tidak ada fungsi tiruan, mock-up visual, atau simulasi palsu. Seluruh tahap pemrosesan (SfM, SBA LM, SGM, CSF, Bates Flood Solver) mengimplementasikan rumus matematika dan fisika murni.
+        </p>
+      </div>
+
+      <div class="pillar-card">
+        <div class="pillar-icon">🔒</div>
+        <h4 class="pillar-title">Privasi & Tanpa Cloud Lock-In</h4>
+        <p class="pillar-desc">
+          Data foto udara dan koordinat rahasia Anda diproses 100% secara lokal pada hardware Anda sendiri. Tidak ada ketergantungan server luar atau biaya langganan bulanan per-hektar.
+        </p>
+      </div>
+
+      <div class="pillar-card">
+        <div class="pillar-icon">📐</div>
+        <h4 class="pillar-title">Standar Geodesi Terverifikasi</h4>
+        <p class="pillar-desc">
+          Mendukung konversi WGS84 ke sistem metrik ENU/UTM, undulasi geoid EGM2008 & INAGEOID, kalibrasi elevasi terhadap DEMNAS, dan pelaporan akurasi ASPRS 2014 / SNI 8202:2015.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team & Collaboration -->
+  <section id="tim" class="container">
+    <div class="team-card">
+      <div>
+        <span class="section-badge">Tim Pengembang</span>
+        <h3 class="team-title">Kolaborasi Teknis Strategis</h3>
+        <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 0.25rem;">
+          Lahir dari integrasi pengalaman operasional ratusan jam terbang survei fotogrametri udara dan keahlian rekayasa perangkat lunak tingkat tinggi.
+        </p>
+      </div>
+
+      <div class="team-grid">
+        <div class="member-box">
+          <div class="member-name">Rwanda</div>
+          <div class="member-org">WanDrone Palembang</div>
+          <div class="member-role">
+            Praktisi fotogrametri udara senior, pilot survei drone perkebunan dan koridor infrastruktur, spesialis optimasi misi lapangan dan integrasi hardware DJI.
+          </div>
+        </div>
+
+        <div class="member-box">
+          <div class="member-name">Aditiya Rachmat</div>
+          <div class="member-org">Throttle Warrior</div>
+          <div class="member-role">
+            Arsitek sistem dan rekayasa perangkat lunak, spesialis algoritme computer vision native, komputasi numerik, rendering GPU waktu nyata, dan protokol radio DUML.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <div class="brand">
+            <div class="brand-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <span>TW-ENTERPRISE</span>
+          </div>
+          <p>
+            Platform fotogrametri udara terpadu dan rekayasa geospasial presisi tinggi dari WanDrone Palembang & Throttle Warrior.
+          </p>
+        </div>
+
+        <div class="footer-links-group">
+          <span class="footer-group-title">TW Photogram (Desktop)</span>
+          <a href="https://tw-enterprise.github.io/TW-Photogram-Docs/">Dokumentasi Daring</a>
+          <a href="https://tw-enterprise.github.io/TW-Photogram-Docs/TW-Photogram-Manual-Book.pdf" download>Manual Book PDF</a>
+          <a href="https://github.com/TW-Enterprise/TW-Photogram">Repositori GitHub</a>
+          <a href="https://tw-enterprise.github.io/TW-Photogram-Docs/engineering/metashape-parity-spec/">Matriks Paritas Metashape</a>
+        </div>
+
+        <div class="footer-links-group">
+          <span class="footer-group-title">TW Mapper Mobile</span>
+          <a href="https://tw-enterprise.github.io/TW-Mapper-Mobile-Docs/">Dokumentasi Daring</a>
+          <a href="https://tw-enterprise.github.io/TW-Mapper-Mobile-Docs/TW-Mapper-Mobile-Manual-Book.pdf" download>Manual Book PDF</a>
+          <a href="https://github.com/TW-Enterprise/TW-Mapper-Mobile">Repositori GitHub</a>
+          <a href="https://tw-enterprise.github.io/TW-Mapper-Mobile-Docs/panduan-pilot/instalasi-rc/">Instalasi di DJI RC 2</a>
+        </div>
+
+        <div class="footer-links-group">
+          <span class="footer-group-title">Ekosistem & Organisasi</span>
+          <a href="https://github.com/TW-Enterprise">Organisasi GitHub</a>
+          <a href="https://github.com/TW-Enterprise/TW-Photogram-Docs">Repositori Dokumentasi Photogram</a>
+          <a href="https://github.com/TW-Enterprise/TW-Mapper-Mobile-Docs">Repositori Dokumentasi Mapper</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          Hak Cipta © 2026 <strong>TW-Enterprise</strong> (Rwanda — WanDrone Palembang & Aditiya Rachmat — Throttle Warrior). Seluruh hak cipta dilindungi undang-undang.
+        </div>
+        <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent-cyan);">
+          ASPRS 2014 • SNI 8202:2015 • ISO 19115-1 • BIG RBI
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
